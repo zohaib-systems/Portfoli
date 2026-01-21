@@ -1093,7 +1093,222 @@ footer > p {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+
+/* Large Desktops (1400px and up) */
+@media (min-width: 1400px) {
+  .hero-title {
+    font-size: 4.5rem;
+  }
+  
+  .gradient-text {
+    font-size: 5.5rem;
+  }
+  
+  .section-title {
+    font-size: 3.5rem;
+  }
+  
+  .cards,
+  .projects-grid {
+    max-width: 1400px;
+  }
+}
+
+/* Desktop (1200px to 1399px) */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .hero-title {
+    font-size: 4rem;
+  }
+  
+  .gradient-text {
+    font-size: 5rem;
+  }
+  
+  .section-title {
+    font-size: 3rem;
+  }
+}
+
+/* Tablets Landscape / Small Desktops (992px to 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .navbar {
+    padding: 1rem 4%;
+  }
+  
+  .hero-title {
+    font-size: 3.5rem;
+  }
+  
+  .gradient-text {
+    font-size: 4.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.3rem;
+  }
+  
+  .section {
+    padding: 5rem 4%;
+  }
+  
+  .section-title {
+    font-size: 2.8rem;
+  }
+  
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .contact-container {
+    gap: 2rem;
+  }
+  
+  .nav-links {
+    gap: 1.5rem;
+  }
+}
+
+/* Tablets Portrait (768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .navbar {
+    padding: 1rem 3%;
+  }
+  
+  .logo {
+    font-size: 1.6rem;
+  }
+  
+  .nav-links {
+    gap: 1.2rem;
+    font-size: 0.95rem;
+  }
+  
+  .nav-links a {
+    padding: 0.4rem 0;
+  }
+  
+  .cv-link {
+    padding: 0.5rem 1rem !important;
+  }
+  
+  .hero {
+    padding-top: 70px;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .gradient-text {
+    font-size: 4rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .hero-buttons {
+    gap: 1rem;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.9rem 1.8rem;
+    font-size: 1rem;
+  }
+  
+  .section {
+    padding: 4.5rem 3%;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+  }
+  
+  .section-desc {
+    font-size: 1.1rem;
+  }
+  
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .contact-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .contact-form,
+  .contact-info {
+    padding: 2rem;
+  }
+  
+  .cv-form {
+    padding: 2.5rem;
+  }
+  
+  .upload-area {
+    padding: 3rem 1.5rem;
+  }
+  
+  .social-icons a {
+    width: 55px;
+    height: 55px;
+    font-size: 1.4rem;
+  }
+}
+
+/* Mobile Devices (481px to 767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+  .navbar {
+    padding: 0.9rem 3%;
+    flex-wrap: wrap;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+  }
+  
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.8rem;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+  
+  .nav-links a {
+    font-size: 0.85rem;
+    padding: 0.3rem 0;
+  }
+  
+  .nav-links li {
+    margin: 0;
+  }
+  
+  .cv-link {
+    padding: 0.4rem 0.9rem !important;
+    font-size: 0.85rem !important;
+  }
+  
+  .hero {
+    padding-top: 100px;
+  }
+  
   .hero-title {
     font-size: 2.5rem;
   }
@@ -1109,58 +1324,549 @@ footer > p {
   .hero-buttons {
     flex-direction: column;
     width: 100%;
-    padding: 0 2rem;
+    padding: 0 1.5rem;
+    gap: 1rem;
   }
   
   .btn-primary,
   .btn-secondary {
     width: 100%;
     justify-content: center;
+    padding: 0.9rem 1.5rem;
+  }
+  
+  .section {
+    padding: 3.5rem 4%;
   }
   
   .section-title {
     font-size: 2rem;
   }
   
-  .cards,
+  .section-desc {
+    font-size: 1rem;
+  }
+  
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .card h3 {
+    font-size: 1.3rem;
+  }
+  
   .projects-grid {
     grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .project-info {
+    padding: 1.5rem;
+  }
+  
+  .project-info h3 {
+    font-size: 1.3rem;
   }
   
   .contact-container {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
   
-  .nav-links {
-    gap: 1rem;
-    font-size: 0.9rem;
+  .contact-form,
+  .contact-info {
+    padding: 2rem 1.5rem;
   }
   
-  .navbar {
-    padding: 1rem 3%;
+  .info-item {
+    padding: 1.2rem;
   }
   
-  .section {
-    padding: 4rem 3%;
+  .cv-form {
+    padding: 2rem;
   }
   
-  .project-links {
-    flex-direction: column;
+  .upload-area {
+    padding: 2.5rem 1.5rem;
   }
   
-  .link-btn {
-    width: 100%;
-    justify-content: center;
+  .upload-area i {
+    font-size: 3rem;
   }
   
-  /* Mobile overlay adjustments */
+  .upload-area h3 {
+    font-size: 1.3rem;
+  }
+  
+  .social-icons a {
+    width: 50px;
+    height: 50px;
+    font-size: 1.3rem;
+  }
+  
+  .social-media h3 {
+    font-size: 1.8rem;
+  }
+  
+  /* Show overlay on mobile */
   .project-overlay {
     opacity: 1 !important;
   }
   
   .overlay-btn {
     min-width: 150px;
-    padding: 0.8rem 1.5rem;
+    padding: 0.8rem 1.3rem;
+    font-size: 0.9rem;
+  }
+  
+  .floating-shape {
+    opacity: 0.08;
+  }
+  
+  .shape-1 {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .shape-2 {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .shape-3 {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+/* Small Mobile Devices (up to 480px) */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.8rem 4%;
+    flex-wrap: wrap;
+  }
+  
+  .logo {
+    font-size: 1.3rem;
+    gap: 0.5rem;
+  }
+  
+  .logo i {
+    font-size: 1.3rem;
+  }
+  
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.8rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+  }
+  
+  .nav-links a {
+    font-size: 0.75rem;
+    padding: 0.3rem 0;
+    gap: 0.3rem;
+  }
+  
+  .nav-links a i {
+    font-size: 0.9rem;
+  }
+  
+  .cv-link {
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.75rem !important;
+  }
+  
+  .hero {
+    padding-top: 110px;
+    min-height: 100vh;
+  }
+  
+  .hero-content {
+    padding: 0 1rem;
+  }
+  
+  .hero-tag {
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .gradient-text {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    padding: 0 1rem;
+    gap: 0.8rem;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+    padding: 0.85rem 1.2rem;
     font-size: 0.95rem;
+  }
+  
+  .section {
+    padding: 3rem 5%;
+  }
+  
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+  
+  .section-tag {
+    padding: 0.3rem 1rem;
+    font-size: 0.75rem;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .section-desc {
+    font-size: 0.95rem;
+  }
+  
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  
+  .card {
+    padding: 1.8rem 1.2rem;
+  }
+  
+  .card-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .card p {
+    font-size: 0.95rem;
+  }
+  
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .project-image {
+    height: 180px;
+    font-size: 3.5rem;
+  }
+  
+  .project-image-container {
+    height: 180px;
+  }
+  
+  .project-info {
+    padding: 1.3rem;
+  }
+  
+  .project-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  .project-info p {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  
+  .tag {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem;
+  }
+  
+  .overlay-buttons {
+    gap: 1rem;
+  }
+  
+  .overlay-btn {
+    min-width: 130px;
+    padding: 0.7rem 1.1rem;
+    font-size: 0.85rem;
+    gap: 0.5rem;
+  }
+  
+  .overlay-btn i {
+    font-size: 1.1rem;
+  }
+  
+  .overlay-btn span {
+    font-size: 0.85rem;
+  }
+  
+  .contact-container {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    padding: 0;
+  }
+  
+  .contact-info,
+  .contact-form {
+    padding: 1.5rem;
+  }
+  
+  .info-item {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .info-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 1.1rem;
+  }
+  
+  .info-item h4 {
+    font-size: 1rem;
+  }
+  
+  .info-item p {
+    font-size: 0.9rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+  
+  .form-group label {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    padding: 0.85rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .form-group textarea {
+    min-height: 100px;
+  }
+  
+  .submit-btn {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+  
+  .cv-container {
+    padding: 0;
+  }
+  
+  .cv-form {
+    padding: 1.5rem;
+  }
+  
+  .upload-area {
+    padding: 2rem 1rem;
+  }
+  
+  .upload-area i {
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .upload-area h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+  
+  .upload-area p {
+    font-size: 0.9rem;
+  }
+  
+  footer {
+    padding: 2.5rem 5% 1.5rem;
+  }
+  
+  .social-media {
+    margin-bottom: 1.5rem;
+  }
+  
+  .social-media h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .social-icons {
+    gap: 1rem;
+  }
+  
+  .social-icons a {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+  }
+  
+  footer > p {
+    font-size: 0.85rem;
+    padding-top: 1.5rem;
+  }
+  
+  /* Show overlay by default on small mobile */
+  .project-overlay {
+    opacity: 1 !important;
+    background: rgba(0, 0, 0, 0.9);
+  }
+  
+  /* Reduce floating shapes */
+  .floating-shape {
+    opacity: 0.05;
+  }
+  
+  .shape-1 {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .shape-2 {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .shape-3 {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* Extra Small Devices (up to 360px) */
+@media (max-width: 360px) {
+  .navbar {
+    padding: 0.7rem 3%;
+  }
+  
+  .logo {
+    font-size: 1.2rem;
+  }
+  
+  .nav-links {
+    gap: 0.4rem;
+  }
+  
+  .nav-links a {
+    font-size: 0.7rem;
+  }
+  
+  .hero-title {
+    font-size: 1.7rem;
+  }
+  
+  .gradient-text {
+    font-size: 2.2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .section-title {
+    font-size: 1.6rem;
+  }
+  
+  .section {
+    padding: 2.5rem 4%;
+  }
+  
+  .card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .project-info {
+    padding: 1.2rem;
+  }
+  
+  .contact-info,
+  .contact-form {
+    padding: 1.2rem;
+  }
+  
+  .cv-form {
+    padding: 1.2rem;
+  }
+  
+  .overlay-btn {
+    min-width: 120px;
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Landscape Orientation for Mobile Devices */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    min-height: auto;
+    padding: 100px 5% 50px;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .gradient-text {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: row;
+    gap: 1rem;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    width: auto;
+    padding: 0.7rem 1.5rem;
+  }
+  
+  .section {
+    padding: 3rem 4%;
+  }
+  
+  .floating-shape {
+    display: none;
   }
 }
