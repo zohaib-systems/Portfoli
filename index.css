@@ -187,14 +187,14 @@ select:focus {
   transform: translateY(-2px);
 }
 
-.cv-link {
+.nav-links .cv-link {
   background: var(--gradient-1);
-  padding: 0.6rem 1.2rem !important;
+  padding: 0.6rem 1.2rem;
   border-radius: 25px;
-  color: white !important;
+  color: white;
 }
 
-.cv-link:hover {
+.nav-links .cv-link:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
@@ -1191,8 +1191,8 @@ footer > p {
     padding: 0.4rem 0;
   }
   
-  .cv-link {
-    padding: 0.5rem 1rem !important;
+  .nav-links .cv-link {
+    padding: 0.5rem 1rem;
   }
   
   .hero {
@@ -1300,9 +1300,9 @@ footer > p {
     margin: 0;
   }
   
-  .cv-link {
-    padding: 0.4rem 0.9rem !important;
-    font-size: 0.85rem !important;
+  .nav-links .cv-link {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.85rem;
   }
   
   .hero {
@@ -1415,7 +1415,7 @@ footer > p {
   
   /* Show overlay on mobile */
   .project-overlay {
-    opacity: 1 !important;
+    opacity: 1;
   }
   
   .overlay-btn {
@@ -1425,22 +1425,7 @@ footer > p {
   }
   
   .floating-shape {
-    opacity: 0.08;
-  }
-  
-  .shape-1 {
-    width: 180px;
-    height: 180px;
-  }
-  
-  .shape-2 {
-    width: 150px;
-    height: 150px;
-  }
-  
-  .shape-3 {
-    width: 130px;
-    height: 130px;
+    display: none;
   }
 }
 
@@ -1479,9 +1464,9 @@ footer > p {
     font-size: 0.9rem;
   }
   
-  .cv-link {
-    padding: 0.4rem 0.8rem !important;
-    font-size: 0.75rem !important;
+  .nav-links .cv-link {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
   }
   
   .hero {
@@ -1737,28 +1722,13 @@ footer > p {
   
   /* Show overlay by default on small mobile */
   .project-overlay {
-    opacity: 1 !important;
+    opacity: 1;
     background: rgba(0, 0, 0, 0.9);
   }
   
-  /* Reduce floating shapes */
+  /* Hide floating shapes for better mobile performance */
   .floating-shape {
-    opacity: 0.05;
-  }
-  
-  .shape-1 {
-    width: 150px;
-    height: 150px;
-  }
-  
-  .shape-2 {
-    width: 120px;
-    height: 120px;
-  }
-  
-  .shape-3 {
-    width: 100px;
-    height: 100px;
+    display: none;
   }
 }
 
