@@ -103,7 +103,7 @@ i.fas, i.fab {
   background-clip: text;
 }
 
-.logo i {
+.logo i, .logo svg {
   color: #667eea;
   -webkit-text-fill-color: #667eea;
   /* Only animate on larger screens */
@@ -111,7 +111,7 @@ i.fas, i.fab {
 
 /* Disable heavy animations on mobile */
 @media (min-width: 769px) {
-  .logo i {
+  .logo i, .logo svg {
     animation: float 3s ease-in-out infinite;
     will-change: transform;
   }
