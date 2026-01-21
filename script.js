@@ -52,7 +52,7 @@ class HeroCursorEffect {
         this.mouseX = e.clientX;
         this.mouseY = e.clientY - rect.top;
         
-        // Create particles - reduced from 2 to 1 for better performance
+        // Create particle (reduced for better mobile performance)
         this.particles.push({
           x: this.mouseX,
           y: this.mouseY,
