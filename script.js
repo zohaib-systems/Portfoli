@@ -37,17 +37,22 @@ class HeroCursorEffect {
       this.isHeroHovered = false;
     });
     
+    // Throttle mousemove for better performance
+    let throttleTimer;
     hero.addEventListener('mousemove', (e) => {
       if (!this.isHeroHovered) return;
       
-      const hero = document.querySelector('.hero');
-      const rect = hero.getBoundingClientRect();
-      
-      this.mouseX = e.clientX;
-      this.mouseY = e.clientY - rect.top;
-      
-      // Create particles
-      for (let i = 0; i < 2; i++) {
+      if (throttleTimer) return;
+      throttleTimer = setTimeout(() => {
+        throttleTimer = null;
+        
+        const hero = document.querySelector('.hero');
+        const rect = hero.getBoundingClientRect();
+        
+        this.mouseX = e.clientX;
+        this.mouseY = e.clientY - rect.top;
+        
+        // Create particles - reduced from 2 to 1 for better performance
         this.particles.push({
           x: this.mouseX,
           y: this.mouseY,
@@ -56,10 +61,10 @@ class HeroCursorEffect {
           life: 1,
           maxLife: 1
         });
-      }
-    });
+      }, 50); // Throttle to every 50ms
+    }, { passive: true });
     
-    window.addEventListener('resize', () => this.setupCanvas());
+    window.addEventListener('resize', () => this.setupCanvas(), { passive: true });
   }
   
   drawLine(x1, y1, x2, y2, opacity) {
@@ -75,23 +80,33 @@ class HeroCursorEffect {
   animate() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     
+    // Limit max particles for performance
+    const maxParticles = 50;
+    if (this.particles.length > maxParticles) {
+      this.particles = this.particles.slice(-maxParticles);
+    }
+    
     if (this.particles.length > 0) {
-      // Draw lines between particles
-      for (let i = 0; i < this.particles.length; i++) {
-        for (let j = i + 1; j < this.particles.length; j++) {
-          const dx = this.particles[i].x - this.particles[j].x;
-          const dy = this.particles[i].y - this.particles[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < 150) {
-            const opacity = (1 - distance / 150) * 0.4;
-            this.drawLine(
-              this.particles[i].x,
-              this.particles[i].y,
-              this.particles[j].x,
-              this.particles[j].y,
-              opacity
-            );
+      // Draw lines between particles - only if enough particles
+      if (this.particles.length > 1) {
+        for (let i = 0; i < this.particles.length; i++) {
+          // Only check nearby particles for better performance
+          const maxCheck = Math.min(i + 5, this.particles.length);
+          for (let j = i + 1; j < maxCheck; j++) {
+            const dx = this.particles[i].x - this.particles[j].x;
+            const dy = this.particles[i].y - this.particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 150) {
+              const opacity = (1 - distance / 150) * 0.4;
+              this.drawLine(
+                this.particles[i].x,
+                this.particles[i].y,
+                this.particles[j].x,
+                this.particles[j].y,
+                opacity
+              );
+            }
           }
         }
       }
@@ -121,9 +136,12 @@ class HeroCursorEffect {
   }
 }
 
-// Initialize cursor effect when DOM is ready
+// Initialize cursor effect when DOM is ready - only on desktop
 document.addEventListener('DOMContentLoaded', () => {
-  new HeroCursorEffect();
+  // Only initialize on larger screens for better mobile performance
+  if (window.innerWidth > 768) {
+    new HeroCursorEffect();
+  }
 });
 
 // Smooth scroll functionality
@@ -381,21 +399,25 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Sticky navbar on scroll
+  // Sticky navbar on scroll - with debouncing
   const navbar = document.querySelector('.navbar');
   let lastScroll = 0;
+  let scrollTimer;
   
   window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    
-    if (currentScroll > 100) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-    
-    lastScroll = currentScroll;
-  });
+    if (scrollTimer) clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 100) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+      
+      lastScroll = currentScroll;
+    }, 10);
+  }, { passive: true });
   
   // Smooth scroll for all anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -409,19 +431,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-  // Intersection Observer for animations
+  // Intersection Observer for animations - with improved performance
   const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
   };
   
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('fade-in');
-        observer.unobserve(entry.target);
-      }
-    });
+    // Use requestIdleCallback for non-critical animation work if available
+    const callback = () => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+    
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(callback);
+    } else {
+      callback();
+    }
   }, observerOptions);
   
   // Observe all cards and sections
@@ -442,7 +473,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         overlay.style.opacity = overlay.style.opacity === '1' ? '0' : '1';
       }
-    });
+    }, { passive: false }); // Need to preventDefault, so not passive
     
     // Close overlay when clicking outside on mobile
     card.addEventListener('mouseleave', function() {
