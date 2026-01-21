@@ -24,7 +24,7 @@
 }
 
 body { 
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Inter-fallback', sans-serif;
   line-height: 1.6;
   color: var(--text-dark);
   background: var(--light-bg);
@@ -64,6 +64,13 @@ select:focus {
   outline-offset: 2px;
 }
 
+/* Font Awesome icon placeholder to prevent CLS */
+i.fas, i.fab {
+  display: inline-block;
+  min-width: 1em;
+  text-align: center;
+}
+
 /* Navbar */
 .navbar {
   display: flex;
@@ -79,6 +86,9 @@ select:focus {
   z-index: 1000;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  /* Fixed height to prevent CLS */
+  height: 80px;
+  min-height: 80px;
 }
 
 .logo {
@@ -291,9 +301,10 @@ select:focus {
   z-index: 10;
   max-width: 900px;
   padding: 0 2rem;
-  /* Optimize animations with will-change */
-  animation: fadeInUp 1s ease-out;
-  will-change: opacity, transform;
+  /* Use opacity-only animation to prevent CLS */
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+  will-change: opacity;
 }
 
 @keyframes fadeInUp {
@@ -316,7 +327,8 @@ select:focus {
   color: #667eea;
   font-weight: 500;
   margin-bottom: 1.5rem;
-  animation: fadeInUp 1s ease-out 0.2s both;
+  opacity: 0;
+  animation: fadeIn 1s ease-out 0.2s forwards;
 }
 
 .hero-title {
@@ -324,7 +336,8 @@ select:focus {
   font-weight: 700;
   margin-bottom: 1.5rem;
   line-height: 1.2;
-  animation: fadeInUp 1s ease-out 0.4s both;
+  opacity: 0;
+  animation: fadeIn 1s ease-out 0.4s forwards;
 }
 
 .gradient-text {
@@ -341,7 +354,8 @@ select:focus {
   color: #cbd5e1;
   margin-bottom: 2.5rem;
   font-weight: 300;
-  animation: fadeInUp 1s ease-out 0.6s both;
+  opacity: 0;
+  animation: fadeIn 1s ease-out 0.6s forwards;
 }
 
 .hero-buttons {
@@ -349,7 +363,8 @@ select:focus {
   gap: 1.5rem;
   justify-content: center;
   flex-wrap: wrap;
-  animation: fadeInUp 1s ease-out 0.8s both;
+  opacity: 0;
+  animation: fadeIn 1s ease-out 0.8s forwards;
   max-width: 700px;
   margin: 0 auto;
 }
@@ -490,7 +505,15 @@ select:focus {
 
 .section-header {
   margin-bottom: 4rem;
-  animation: fadeInUp 0.8s ease-out;
+  /* Changed to fade-in only to prevent CLS */
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
 }
 
 .section-tag {
@@ -573,6 +596,8 @@ select:focus {
 .card-icon {
   width: 80px;
   height: 80px;
+  min-width: 80px;
+  min-height: 80px;
   margin: 0 auto 1.5rem;
   background: linear-gradient(135deg, #667eea, #764ba2);
   border-radius: 20px;
@@ -630,6 +655,7 @@ select:focus {
 
 .project-image {
   height: 200px;
+  min-height: 200px;
   background: linear-gradient(135deg, #667eea, #764ba2);
   display: flex;
   align-items: center;
@@ -648,6 +674,7 @@ select:focus {
   position: relative;
   overflow: hidden;
   height: 200px;
+  min-height: 200px;
   border-radius: 20px 20px 0 0;
 }
 
@@ -1052,9 +1079,9 @@ select:focus {
   transform: scale(1.02);
 }
 
-/* Fade-in animation for sections */
+/* Fade-in animation for sections - opacity only to prevent CLS */
 .fade-in {
-  animation: fadeInUp 0.8s ease-out both;
+  animation: fadeIn 0.8s ease-out both;
 }
 
 /* Navbar scrolled state */
