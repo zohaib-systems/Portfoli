@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react";
 
 const cardBase =
   "rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] backdrop-blur-xl p-5 md:p-6 shadow-[0_20px_60px_rgba(2,6,23,0.45)] ring-1 ring-white/5";
@@ -648,6 +649,7 @@ export default function App() {
       </motion.footer>
 
       <PreviewModal project={selectedProject} closeModal={() => setSelectedProject(null)} />
+      <Analytics />
     </section>
   );
 }
