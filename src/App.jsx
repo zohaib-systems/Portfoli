@@ -330,13 +330,10 @@ function PreviewModal({ project, closeModal }) {
 }
 
 export default function App() {
-  const vibes = useMemo(() => ["Coding", "Debugging", "Shipping", "Refactoring"], []);
-  const [vibeIndex, setVibeIndex] = useState(0);
   const [activeSnapshot, setActiveSnapshot] = useState(0);
   const [pauseSnapshots, setPauseSnapshots] = useState(false);
   const [mobileMode, setMobileMode] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const currentVibe = vibes[vibeIndex];
   const projectTechnologies = useMemo(() => [...new Set(projects.flatMap((project) => project.tags))], []);
 
   useEffect(() => {
@@ -394,46 +391,45 @@ export default function App() {
         >
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.2fr] lg:gap-8">
             <div>
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-slate-400">Portfolio OS</p>
-                  <h1 className="mt-2 text-2xl font-semibold leading-tight md:text-3xl">
-                    Vibe Coder and Full-Stack Builder
-                  </h1>
-                </div>
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-400">Developer Portfolio</p>
+              <h1 className="mt-2 max-w-3xl text-3xl font-semibold leading-tight md:text-4xl">
+                I build production-ready web products for teams that need speed and reliability.
+              </h1>
 
-                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-300">
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(74,222,128,0.9)] animate-pulse" />
-                  Current Vibe: {currentVibe}
-                </div>
-              </div>
-
-              <p className="mt-5 max-w-2xl text-slate-300 leading-relaxed">
-                A showcase command center with project snapshots on top and live preview cards below.
-                Built for fast trust: users see product quality before reading details.
+              <p className="mt-5 max-w-2xl leading-relaxed text-slate-300">
+                Full-stack applications with React frontends, robust APIs, and clean delivery workflows. I focus on
+                useful interfaces, maintainable architecture, and measurable outcomes.
               </p>
 
-              <div className="mt-6 flex flex-wrap gap-2">
+              <div className="mt-6 flex flex-wrap gap-3">
                 <button
                   type="button"
-                  onClick={() => setVibeIndex((prev) => (prev + 1) % vibes.length)}
-                  className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-slate-100 transition hover:bg-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70"
+                  onClick={() => jumpToProject(primaryProject?.id || projects[0].id)}
+                  className="inline-flex items-center justify-center rounded-xl border border-cyan-300/30 bg-cyan-400/15 px-5 py-2.5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-400/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/60"
                 >
-                  Vibe Toggle
-                </button>
-                <button
-                  type="button"
-                  onClick={() => jumpToProject(projects[activeSnapshot].id)}
-                  className="inline-flex items-center justify-center rounded-xl border border-cyan-300/25 bg-cyan-400/10 px-4 py-2 text-sm font-medium text-cyan-200 transition hover:bg-cyan-400/20"
-                >
-                  Open Active Project
+                  View Projects
                 </button>
                 <a
                   href="#contact"
-                  className="inline-flex items-center justify-center rounded-xl border border-emerald-300/25 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-200 transition hover:bg-emerald-400/20"
+                  className="inline-flex items-center justify-center rounded-xl border border-emerald-300/30 bg-emerald-400/15 px-5 py-2.5 text-sm font-semibold text-emerald-100 transition hover:bg-emerald-400/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/60"
                 >
-                  Contact Me
+                  Contact
                 </a>
+              </div>
+
+              <div className="mt-6 flex flex-wrap gap-2.5">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-200">
+                  <span className="h-2 w-2 rounded-full bg-cyan-300" />
+                  {projects.length} shipped projects
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-200">
+                  <span className="h-2 w-2 rounded-full bg-emerald-300" />
+                  {stack.length}+ core technologies
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-200">
+                  <span className="h-2 w-2 rounded-full bg-sky-300" />
+                  End-to-end delivery
+                </span>
               </div>
             </div>
 
