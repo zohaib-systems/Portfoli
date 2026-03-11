@@ -1,0 +1,37 @@
+function TechStackSection({ categories }) {
+  return (
+    <motion.section variants={fadeUp} className={`${cardBase} lg:col-span-4`} aria-label="Tech stack section">
+      <div className="mb-5">
+        <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Capability Matrix</p>
+        <h2 className="mt-1 text-2xl font-semibold text-white md:text-3xl">Tech Stack</h2>
+      </div>
+
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+        {categories.map((category) => (
+          <article
+            key={category.title}
+            className="group rounded-xl border border-white/10 bg-slate-950/55 p-4 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/25"
+          >
+            <div className={`mb-3 rounded-lg bg-gradient-to-r ${category.accent} px-3 py-2`}>
+              <h3 className="text-sm font-semibold text-white">{category.title}</h3>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {category.items.map((item) => (
+                <span
+                  key={item}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1.5 text-xs font-medium text-slate-200 transition group-hover:bg-white/10"
+                >
+                  <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-md border border-cyan-300/30 bg-cyan-400/15 px-1 text-[10px] font-semibold text-cyan-100">
+                    {techGlyph[item] || "*"}
+                  </span>
+                  {item}
+                </span>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </motion.section>
+  );
+}
