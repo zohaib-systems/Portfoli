@@ -83,6 +83,14 @@ const projects = [
   }
 ];
 
+const contactChannels = {
+  email: "hello@example.com",
+  phone: "+1 000 000 0000",
+  whatsapp: "https://wa.me/10000000000",
+  facebook: "https://www.facebook.com/your-handle",
+  github: "https://github.com/zohaib-systems"
+};
+
 function TechBadge({ label }) {
   return (
     <span className="rounded-lg border border-white/10 bg-slate-800/80 px-3 py-1.5 text-sm font-medium text-slate-200 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]">
@@ -420,6 +428,12 @@ export default function App() {
                 >
                   Open Active Project
                 </button>
+                <a
+                  href="#contact"
+                  className="inline-flex items-center justify-center rounded-xl border border-emerald-300/25 bg-emerald-400/10 px-4 py-2 text-sm font-medium text-emerald-200 transition hover:bg-emerald-400/20"
+                >
+                  Contact Me
+                </a>
               </div>
             </div>
 
@@ -564,6 +578,74 @@ export default function App() {
           />
         ))}
       </motion.div>
+
+      <motion.footer
+        id="contact"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={fadeUp}
+        className="relative mx-auto mt-5 max-w-7xl"
+        aria-label="Contact footer"
+      >
+        <div className="overflow-hidden rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(6,78,59,0.45),rgba(15,23,42,0.9))] p-5 shadow-[0_20px_60px_rgba(2,6,23,0.5)] ring-1 ring-emerald-300/20 md:p-7">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.16em] text-emerald-200/80">Call To Action</p>
+              <h2 className="mt-2 text-2xl font-semibold text-white md:text-3xl">Let's Build Something Useful</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-200">
+                Available for freelance and full-time opportunities. Choose any channel below and I will respond quickly.
+              </p>
+            </div>
+            <a
+              href={`mailto:${contactChannels.email}`}
+              className="inline-flex items-center justify-center rounded-xl border border-emerald-200/40 bg-emerald-300/20 px-4 py-2 text-sm font-semibold text-emerald-50 transition hover:bg-emerald-300/30"
+            >
+              Start A Conversation
+            </a>
+          </div>
+
+          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <a
+              href={`mailto:${contactChannels.email}`}
+              className="rounded-xl border border-emerald-200/25 bg-emerald-300/10 p-3 text-sm text-emerald-50 hover:bg-emerald-300/20"
+            >
+              <span className="block text-xs uppercase tracking-[0.12em] text-emerald-100/80">Email</span>
+              <span className="mt-1 block font-medium">{contactChannels.email}</span>
+            </a>
+
+            <a
+              href={contactChannels.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-xl border border-cyan-200/25 bg-cyan-300/10 p-3 text-sm text-cyan-50 hover:bg-cyan-300/20"
+            >
+              <span className="block text-xs uppercase tracking-[0.12em] text-cyan-100/80">WhatsApp</span>
+              <span className="mt-1 block font-medium">{contactChannels.phone}</span>
+            </a>
+
+            <a
+              href={contactChannels.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-xl border border-white/20 bg-white/10 p-3 text-sm text-slate-100 hover:bg-white/15"
+            >
+              <span className="block text-xs uppercase tracking-[0.12em] text-slate-300">Facebook</span>
+              <span className="mt-1 block font-medium">Professional Profile</span>
+            </a>
+
+            <a
+              href={contactChannels.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-xl border border-white/20 bg-white/10 p-3 text-sm text-slate-100 hover:bg-white/15"
+            >
+              <span className="block text-xs uppercase tracking-[0.12em] text-slate-300">GitHub</span>
+              <span className="mt-1 block font-medium">Code Samples</span>
+            </a>
+          </div>
+        </div>
+      </motion.footer>
 
       <PreviewModal project={selectedProject} closeModal={() => setSelectedProject(null)} />
     </section>
