@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
-import MicrobeCaseStudy from "./pages/MicrobeCaseStudy";
+import WasteWiseCaseStudy from "./pages/MicrobeCaseStudy";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <HashRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/case-studies/microbe-of-the-day" element={<MicrobeCaseStudy />} />
+        <Route path="/case-studies/waste-wise" element={<WasteWiseCaseStudy />} />
       </Routes>
     </HashRouter>
   </React.StrictMode>

@@ -4,136 +4,134 @@ import { motion } from "framer-motion";
 const sections = [
   {
     id: "problem",
-    title: "1. Problem",
+    title: "01. THE PROBLEM",
     body: [
-      "Microbiology information is usually distributed across dense, technical sources that are hard to scan quickly.",
-      "For learners and curious users, this creates friction: too much context before a useful insight appears.",
-      "The core problem was delivering one meaningful microbe insight per day in under a minute of reading."
+      "Urban environments face an exponential crisis in waste management efficiency, with fragmented data leads to significant ecological friction.",
+      "Traditional systems lack real-time synthesis of waste types, volumes, and logistical optimization.",
+      "The core architectural challenge was creating a deterministic logic engine to normalize diverse sustainability data points into actionable insights."
     ]
   },
   {
     id: "product-idea",
-    title: "2. Product Idea",
+    title: "02. SYSTEM SYNTHESIS",
     body: [
-      "Microbe of the Day was designed as a focused daily learning product rather than a full encyclopedia.",
-      "The product exists to build a simple habit: open, learn one organism, leave with a practical takeaway.",
-      "This scope keeps the user experience light while maintaining scientific credibility."
+      "WasteWise was architected as an AI-powered sustainability engine rather than a static tracking tool.",
+      "The system focuses on high-velocity data processing to optimize environmental impact cycles.",
+      "Biological precision was applied to the UI to ensure complex technical specimens (data) remain readable and actionable."
     ]
   },
   {
     id: "architecture",
-    title: "3. Architecture",
+    title: "03. ARCHITECTURAL PROTOCOL",
     body: [
-      "The app follows a client-centric architecture with clear boundaries between data retrieval, transformation, and presentation.",
-      "A daily key selects the record to display, the service layer fetches and normalizes API data, and the UI renders stable states for loading, success, and error.",
-      "Caching is treated as a separate concern so the view layer remains clean and predictable."
+      "Built on a robust MERN-stack foundation with an emphasis on scalable digital infrastructure.",
+      "The architecture utilizes a clinical data layer to maintain high integrity across sustainability datasets.",
+      "React server-side logic handles complex normalized mapping, while the frontend provides a high-performance laboratory interface."
     ]
   },
   {
     id: "tech-stack",
-    title: "4. Tech Stack",
+    title: "04. TECH STACK (SYNTHESIZED)",
     body: [
-      "React was chosen for deterministic component state and fast UI iteration.",
-      "Vite supports rapid development feedback and efficient production bundles.",
-      "Tailwind CSS enables compact, consistent styling for card-driven interfaces.",
-      "Framer Motion is used sparingly for transition polish without impacting readability."
+      "React // Component Protocol for reactive state orchestration.",
+      "AI Engine // Custom logic wrappers for sustainability forecasting.",
+      "Vite // High-velocity development and deployment pipeline.",
+      "Tailwind CSS // Laboratory grid system for structural precision.",
+      "Framer Motion // Biological transitions for organic feedback cycles."
     ]
   },
   {
-    id: "api-integration",
-    title: "5. API Integration",
+    id: "performance",
+    title: "05. SYSTEMS VALIDATION",
     body: [
-      "Data is fetched through an isolated service function that handles request state, response checks, and output mapping.",
-      "External payloads are normalized into a UI-safe model before render to avoid tight coupling with API field variability.",
-      "Error and empty states are explicitly handled so the interface remains reliable even when the source is inconsistent."
-    ]
-  },
-  {
-    id: "performance-caching",
-    title: "6. Performance and Caching",
-    body: [
-      "A date-based cache key prevents redundant requests across repeat visits on the same day.",
-      "If valid cached data exists, the app renders immediately and skips network latency.",
-      "This improves perceived performance, lowers API traffic, and preserves a smooth first interaction."
-    ]
-  },
-  {
-    id: "challenges",
-    title: "7. Challenges",
-    body: [
-      "The biggest challenge was balancing scientific depth with concise presentation.",
-      "Another was handling uneven API quality while preserving a stable user interface.",
-      "Deterministic daily content selection and cache invalidation also required careful edge-case handling across time boundaries."
-    ]
-  },
-  {
-    id: "future-improvements",
-    title: "8. Future Improvements",
-    body: [
-      "Add typed schema validation for stronger runtime guarantees in the data layer.",
-      "Introduce service worker caching for stronger offline behavior and faster repeat loads.",
-      "Expand product depth with related microbes, saved favorites, and streak-based engagement features."
+      "Rigorous performance testing ensures the engine maintains low latency during peak data ingestion.",
+      "Verified repositories and battle-tested deployment paths guarantee system reliability.",
+      "Integrated health monitoring tracks the active status of all environmental sensors and API nodes."
     ]
   }
 ];
 
-export default function MicrobeCaseStudy() {
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1]
+    }
+  }
+};
+
+export default function WasteWiseCaseStudy() {
   return (
-    <main className="min-h-screen bg-slate-900 px-4 py-8 text-slate-100 md:px-8 md:py-10">
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_14%_18%,rgba(56,189,248,0.14),transparent_32%),radial-gradient(circle_at_86%_78%,rgba(34,197,94,0.14),transparent_28%)]" />
+    <main className="min-h-screen bg-slate-950 px-4 py-8 text-cool-gray md:px-8 md:py-10 lab-grid font-sans selection:bg-electric-cyan/10">
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_14%_18%,rgba(34,211,238,0.1),transparent_35%),radial-gradient(circle_at_86%_78%,rgba(52,211,153,0.1),transparent_35%)]" />
 
       <motion.div
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35, ease: "easeOut" }}
+        initial="hidden"
+        animate="show"
+        variants={{
+          hidden: { opacity: 0 },
+          show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+        }}
         className="mx-auto max-w-5xl"
       >
-        <div className="rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0.02))] p-6 shadow-[0_20px_60px_rgba(2,6,23,0.45)] backdrop-blur-xl md:p-8">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-xs uppercase tracking-[0.18em] text-slate-400">Case Study</p>
+        <motion.div
+          variants={fadeUp}
+          className="rounded-2xl border border-white/10 bg-slate-900/40 p-6 shadow-2xl backdrop-blur-xl md:p-10 relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 p-6 opacity-10">
+             <svg width="150" height="150" viewBox="0 0 100 100" className="text-electric-cyan">
+                <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="0.2" strokeDasharray="2 2" />
+                <path d="M50 10 V90 M10 50 H90" stroke="currentColor" strokeWidth="0.2" />
+             </svg>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-4 relative z-10">
+            <p className="text-[10px] uppercase tracking-[0.25em] text-electric-cyan font-mono">System Deep-Dive // WW-01</p>
             <Link
               to="/"
-              className="rounded-lg border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-medium text-slate-100 transition hover:bg-white/20"
+              className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-cool-gray transition-all hover:bg-white/10 hover:text-white font-mono"
             >
-              Back To Portfolio
+              Terminate Session
             </Link>
           </div>
 
-          <h1 className="mt-3 text-3xl font-semibold leading-tight md:text-4xl">Microbe of the Day</h1>
-          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-slate-300 md:text-base">
-            A technical case study focused on product rationale, system architecture, and engineering decisions behind a
-            daily microbiology insight application.
+          <h1 className="mt-6 text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl">
+            WasteWise <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 text-neon-petri">Engine.</span>
+          </h1>
+          <p className="mt-6 max-w-3xl text-lg leading-relaxed text-cool-gray font-light">
+            A comprehensive systems validation report on the product rationale, protocol architecture, and engineering synthesis behind the WasteWise sustainability engine.
           </p>
 
-          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <div className="rounded-xl border border-white/10 bg-slate-950/60 p-3">
-              <p className="text-[11px] uppercase tracking-[0.14em] text-slate-400">Role</p>
-              <p className="mt-1 text-sm font-medium text-white">Product Engineer</p>
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="rounded-xl border border-white/5 bg-slate-950/40 p-4 border-l-2 border-l-cyan-400">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-mono">Designation</p>
+              <p className="mt-1 text-sm font-bold text-white uppercase tracking-tight">Lead Systems Architect</p>
             </div>
-            <div className="rounded-xl border border-white/10 bg-slate-950/60 p-3">
-              <p className="text-[11px] uppercase tracking-[0.14em] text-slate-400">Primary Focus</p>
-              <p className="mt-1 text-sm font-medium text-white">API-driven Daily UX</p>
+            <div className="rounded-xl border border-white/5 bg-slate-950/40 p-4 border-l-2 border-l-emerald-400">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-mono">Primary Protocol</p>
+              <p className="mt-1 text-sm font-bold text-white uppercase tracking-tight">AI Insight Synthesis</p>
             </div>
-            <div className="rounded-xl border border-white/10 bg-slate-950/60 p-3">
-              <p className="text-[11px] uppercase tracking-[0.14em] text-slate-400">Audience</p>
-              <p className="mt-1 text-sm font-medium text-white">Recruiters and Engineers</p>
+            <div className="rounded-xl border border-white/5 bg-slate-950/40 p-4 border-l-2 border-l-cyan-400">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-mono">Deployment</p>
+              <p className="mt-1 text-sm font-bold text-white uppercase tracking-tight">Google Cloud Run</p>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="mt-5 space-y-4">
-          {sections.map((section, index) => (
+        <div className="mt-6 space-y-4">
+          {sections.map((section) => (
             <motion.section
               key={section.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.05 * index, duration: 0.25 }}
-              className="rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-5 shadow-[0_16px_35px_rgba(2,6,23,0.36)] backdrop-blur-xl md:p-6"
+              variants={fadeUp}
+              className="rounded-2xl border border-white/5 bg-slate-900/20 p-6 shadow-xl backdrop-blur-md transition-all duration-300 hover:border-white/10 hover:bg-slate-900/30"
             >
-              <h2 className="text-xl font-semibold text-white">{section.title}</h2>
-              <div className="mt-3 space-y-2.5">
-                {section.body.map((paragraph) => (
-                  <p key={paragraph} className="text-sm leading-relaxed text-slate-300 md:text-[15px]">
+              <h2 className="text-sm font-bold text-electric-cyan tracking-[0.15em] font-mono mb-4">{section.title}</h2>
+              <div className="space-y-4">
+                {section.body.map((paragraph, pIdx) => (
+                  <p key={pIdx} className="text-base leading-relaxed text-cool-gray font-light md:text-lg">
                     {paragraph}
                   </p>
                 ))}
@@ -141,6 +139,20 @@ export default function MicrobeCaseStudy() {
             </motion.section>
           ))}
         </div>
+
+        <motion.div 
+          variants={fadeUp}
+          className="mt-8 mb-12 text-center"
+        >
+          <a
+            href="https://wastewise-72852433259.us-west1.run.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-3 rounded-xl border border-emerald-400/30 bg-neon-petri/10 px-8 py-4 text-sm font-bold text-pale-mint shadow-[0_0_30px_rgba(52,211,153,0.1)] transition-all hover:bg-emerald-400/20 hover:scale-[1.02]"
+          >
+            Access Live Engine
+          </a>
+        </motion.div>
       </motion.div>
     </main>
   );
