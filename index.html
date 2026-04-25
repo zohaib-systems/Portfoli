@@ -17,6 +17,11 @@
     />
   </head>
   <body>
+    <script>
+      // Runs synchronously before React mounts — prevents browser scroll restoration
+      if (history.scrollRestoration) history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

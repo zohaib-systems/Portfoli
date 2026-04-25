@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useRef } from "react";
 
 const cardBase =
   "rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] backdrop-blur-xl p-5 md:p-6 shadow-[0_20px_60px_rgba(2,6,23,0.45)] ring-1 ring-white/5";
@@ -180,15 +181,33 @@ function TechBadge({ label }) {
 }
 
 function PreviewSurface({ project, mobileMode, openModal, isPrimary }) {
-  const previewHeight =
-    project.id === "life-management-os"
-      ? "h-[22rem] md:h-[28rem] lg:h-[32rem]"
-      : project.id === "family-vault"
-      ? "h-56 md:h-64"
-      : "h-48 md:h-56";
+  const previewHeight = isPrimary ? "h-[250px] md:h-[400px]" : "h-[180px] md:h-[220px]";
+  const [isInView, setIsInView] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="group/preview relative overflow-hidden rounded-xl border border-white/10 bg-slate-900/80 shadow-[0_8px_30px_rgba(2,6,23,0.5)]">
+    <div 
+      ref={containerRef}
+      className="group/preview relative overflow-hidden rounded-xl border border-white/10 bg-slate-900/80 shadow-[0_8px_30px_rgba(2,6,23,0.5)]"
+    >
       <div className="absolute inset-x-0 top-0 z-20 flex h-7 items-center gap-1.5 border-b border-white/10 bg-slate-950/85 px-3">
         <span className="h-2 w-2 rounded-full bg-rose-400/80" />
         <span className="h-2 w-2 rounded-full bg-amber-300/80" />
@@ -210,14 +229,24 @@ function PreviewSurface({ project, mobileMode, openModal, isPrimary }) {
         </a>
       )}
       {!mobileMode ? (
-        <iframe
-          title={`${project.title} preview`}
-          src={project.liveUrl}
-          className={`${previewHeight} w-full border-0 pt-7 transition duration-300 group-hover/preview:scale-[1.01]`}
-          loading="lazy"
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-          referrerPolicy="strict-origin-when-cross-origin"
-        />
+        isInView ? (
+          <div className="relative">
+            <iframe
+              title={`${project.title} preview`}
+              src={project.liveUrl}
+              tabIndex="-1"
+              className={`${previewHeight} w-full border-0 pt-7 transition duration-300 group-hover/preview:scale-[1.01]`}
+              loading="lazy"
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+            {/* Transparent overlay — blocks iframe from receiving focus or scroll events */}
+            <div className="absolute inset-0 z-30 cursor-default" aria-hidden="true" /></div>
+        ) : (
+          <div className={`${previewHeight} w-full bg-slate-900/50 pt-7 flex items-center justify-center`}>
+            <span className="text-[10px] text-cool-gray font-mono uppercase animate-pulse">Initializing Module...</span>
+          </div>
+        )
       ) : (
         <div className={`${previewHeight} w-full bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 pt-7`} />
       )}
@@ -275,7 +304,6 @@ function ProjectCard({ project, mobileMode, openModal }) {
 
   return (
     <motion.article
-      id={project.id}
       variants={fadeUp}
       whileHover={hoverLift}
       className={`${cardBase} group ${project.size}`.trim()}
@@ -390,13 +418,14 @@ function FeaturedProjectsSection({ featuredProjects, openCaseStudy }) {
         </div>
         <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 to-transparent pointer-events-none z-10" />
         <iframe
-          title={`${project.title} preview`}
-          src={project.liveUrl}
-          className={`w-full border-0 pt-7 grayscale-[0.2] contrast-[1.1] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-[1.02] ${isLead ? "h-[24rem] md:h-[30rem]" : "h-64 md:h-72"}`}
-          loading="lazy"
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-          referrerPolicy="strict-origin-when-cross-origin"
-        />
+            title={`${project.title} preview`}
+            src={project.liveUrl}
+            tabIndex="-1"
+            className={`w-full border-0 pt-7 grayscale-[0.2] contrast-[1.1] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-[1.02] ${isLead ? "h-[24rem] md:h-[30rem]" : "h-64 md:h-72"}`}
+            loading="lazy"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
       </div>
 
       <div className="relative z-10">
@@ -435,10 +464,8 @@ function FeaturedProjectsSection({ featuredProjects, openCaseStudy }) {
   );
 
   return (
-    <motion.section
-      variants={fadeUp}
-      id="featured-projects"
-      className={`${cardBase} lg:col-span-4 overflow-hidden relative`}
+    <section
+      className="lg:col-span-4 mt-12 min-h-[800px]"
       aria-label="Validated system modules section"
     >
       <div className="absolute top-0 right-0 p-4 opacity-10">
@@ -462,13 +489,13 @@ function FeaturedProjectsSection({ featuredProjects, openCaseStudy }) {
           {supportingProjects.map((project) => renderProjectCard(project))}
         </div>
       )}
-    </motion.section>
+    </section>
   );
 }
 
 function LabExperimentsSection({ experiments }) {
   return (
-    <motion.section variants={fadeUp} className={`${cardBase} lg:col-span-4`} aria-label="Lab experiments section">
+    <motion.section variants={fadeUp} className={`${cardBase} lg:col-span-4 min-h-[300px]`} aria-label="Lab experiments section">
       <div className="mb-6 flex items-end justify-between gap-3 relative z-10">
         <div>
           <p className="text-[10px] uppercase tracking-[0.25em] text-neon-petri font-mono">Experimental R&D</p>
@@ -572,7 +599,6 @@ function ContactSection({ channels }) {
 
   return (
     <motion.section
-      id="contact"
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
@@ -670,7 +696,7 @@ function EngineeringSnapshotSection({ metrics }) {
   return (
     <motion.section
       variants={fadeUp}
-      className={`${cardBase} lg:col-span-4`}
+      className={`${cardBase} lg:col-span-4 min-h-[140px]`}
       aria-label="Engineering snapshot section"
     >
       <div className="mb-5">
@@ -711,7 +737,7 @@ function VisionStack() {
   return (
     <motion.section 
       variants={fadeUp} 
-      className={`${cardBase} lg:col-span-4 mt-8 relative overflow-hidden bg-[#050505]`}
+      className={`${cardBase} lg:col-span-4 mt-8 relative overflow-hidden bg-[#050505] min-h-[400px]`}
       aria-label="Vision stack section"
     >
       <div className="absolute top-0 right-0 p-8 opacity-[0.05] pointer-events-none">
@@ -770,7 +796,7 @@ function VisionStack() {
 
 function TechStackSection({ categories }) {
   return (
-    <motion.section variants={fadeUp} className={`${cardBase} lg:col-span-4`} aria-label="Tech stack section">
+    <motion.section variants={fadeUp} className={`${cardBase} lg:col-span-4 min-h-[250px]`} aria-label="Tech stack section">
       <div className="mb-6">
         <p className="text-[10px] uppercase tracking-[0.25em] text-electric-cyan font-mono">Synthesized Capability</p>
         <h2 className="mt-1 text-2xl font-bold text-white md:text-3xl tracking-tight">TECH STACK</h2>
@@ -873,10 +899,60 @@ function PreviewModal({ project, closeModal }) {
   );
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 export default function App() {
   const heroProject = projects.find((project) => project.id === "waste-wise") || projects[0];
   const [mobileMode, setMobileMode] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+
+  // ── Hero-first scroll enforcement ──────────────────────────────────
+  // Iframes load async and can steal focus / trigger scroll long after
+  // React mounts.  We use a multi-pass approach:
+  //   1. Immediate scrollTo
+  //   2. Timed scrollTo passes at 0/100/300/800ms to beat deferred loads
+  //   3. Blur listener to reclaim scroll when an iframe grabs focus
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    const scrollTop = () => window.scrollTo(0, 0);
+    scrollTop();
+
+    // Timed passes to catch iframe focus-steals during async load
+    const t1 = setTimeout(scrollTop, 0);
+    const t2 = setTimeout(scrollTop, 100);
+    const t3 = setTimeout(scrollTop, 300);
+    const t4 = setTimeout(scrollTop, 800);
+
+    // If an iframe steals focus (blur fires on window), reclaim scroll
+    const onBlur = () => {
+      // Only act during initial load window (first 2 seconds)
+      setTimeout(scrollTop, 0);
+    };
+    window.addEventListener("blur", onBlur);
+
+    // Stop listening after 2s — page is settled by then
+    const tCleanup = setTimeout(() => {
+      window.removeEventListener("blur", onBlur);
+    }, 2000);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(t4);
+      clearTimeout(tCleanup);
+      window.removeEventListener("blur", onBlur);
+    };
+  }, []);
   const projectTechnologies = useMemo(() => [...new Set(projects.flatMap((project) => project.tags))], []);
   const featuredProjects = useMemo(() => {
     const featuredById = {
@@ -937,6 +1013,7 @@ export default function App() {
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-slate-950 px-4 py-8 text-slate-100 md:px-8 md:py-10 lab-grid">
+      <ScrollToTop />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(34,211,238,0.1),transparent_35%),radial-gradient(circle_at_88%_82%,rgba(52,211,153,0.1),transparent_35%)]" />
 
       <motion.div
@@ -963,18 +1040,20 @@ export default function App() {
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4">
-                <a
-                  href="#featured-projects"
+                <button
+                  type="button"
+                  onClick={() => document.querySelector('[aria-label="Validated system modules section"]')?.scrollIntoView({ behavior: "smooth" })}
                   className="inline-flex items-center justify-center rounded-xl border border-cyan-300/30 bg-electric-cyan/10 px-6 py-3 text-sm font-semibold text-pale-mint transition duration-300 hover:bg-cyan-400/20 hover:border-cyan-300/50 shadow-[0_0_20px_rgba(34,211,238,0.15)] focus:outline-none"
                 >
                   Explore System Library
-                </a>
-                <a
-                  href="#contact"
+                </button>
+                <button
+                  type="button"
+                  onClick={() => document.querySelector('[aria-label="Contact section"]')?.scrollIntoView({ behavior: "smooth" })}
                   className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-slate-200 transition duration-300 hover:bg-white/10 hover:border-white/20 focus:outline-none"
                 >
                   Book a Systems Audit
-                </a>
+                </button>
               </div>
 
               <div className="mt-6 flex flex-wrap gap-2.5">
@@ -1000,14 +1079,18 @@ export default function App() {
                   <span className="h-2 w-2 rounded-full bg-amber-300/80" />
                   <span className="h-2 w-2 rounded-full bg-emerald-400/80" />
                 </div>
-                <iframe
-                  title={`${heroProject.title} snapshot preview`}
-                  src={heroProject.liveUrl}
-                  className="h-[18rem] w-full border-0 md:h-[22rem]"
-                  loading="lazy"
-                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                />
+                <div className="relative">
+                  <iframe
+                    title={`${heroProject.title} snapshot preview`}
+                    src={heroProject.liveUrl}
+                    tabIndex="-1"
+                    className="h-[18rem] w-full border-0 md:h-[22rem]"
+                    loading="lazy"
+                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                  />
+                  <div className="absolute inset-0 z-10 cursor-default" aria-hidden="true" />
+                </div>
 
                 <div className="border-t border-white/10 bg-slate-900/85 p-4">
                   <h3 className="text-base font-semibold text-white md:text-lg">{heroProject.title}</h3>
