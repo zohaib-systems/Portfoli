@@ -235,6 +235,7 @@ function PreviewSurface({ project, mobileMode, openModal, isPrimary }) {
               title={`${project.title} preview`}
               src={project.liveUrl}
               tabIndex="-1"
+              onLoad={(event) => event.currentTarget.blur()}
               className={`${previewHeight} w-full border-0 pt-7 transition duration-300 group-hover/preview:scale-[1.01]`}
               loading="lazy"
               sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
@@ -372,6 +373,27 @@ function ProjectCard({ project, mobileMode, openModal }) {
 
 function FeaturedProjectsSection({ featuredProjects, openCaseStudy }) {
   const [leadProject, ...supportingProjects] = featuredProjects;
+  const sectionRef = useRef(null);
+  const [canLoadPreviews, setCanLoadPreviews] = useState(false);
+
+  useEffect(() => {
+    if (canLoadPreviews) return undefined;
+    const section = sectionRef.current;
+    if (!section) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setCanLoadPreviews(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px 0px", threshold: 0.01 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [canLoadPreviews]);
 
   const renderCaseStudy = (project) => {
     if (project.id === "waste-wise") {
@@ -417,15 +439,23 @@ function FeaturedProjectsSection({ featuredProjects, openCaseStudy }) {
           </div>
         </div>
         <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 to-transparent pointer-events-none z-10" />
-        <iframe
-            title={`${project.title} preview`}
-            src={project.liveUrl}
-            tabIndex="-1"
-            className={`w-full border-0 pt-7 grayscale-[0.2] contrast-[1.1] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-[1.02] ${isLead ? "h-[24rem] md:h-[30rem]" : "h-64 md:h-72"}`}
-            loading="lazy"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-            referrerPolicy="strict-origin-when-cross-origin"
+        {canLoadPreviews ? (
+          <iframe
+              title={`${project.title} preview`}
+              src={project.liveUrl}
+              tabIndex="-1"
+              onLoad={(event) => event.currentTarget.blur()}
+              className={`w-full border-0 pt-7 grayscale-[0.2] contrast-[1.1] transition-all duration-700 group-hover:grayscale-0 group-hover:scale-[1.02] ${isLead ? "h-[24rem] md:h-[30rem]" : "h-64 md:h-72"}`}
+              loading="lazy"
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+        ) : (
+          <div
+            className={`w-full border-0 pt-7 ${isLead ? "h-[24rem] md:h-[30rem]" : "h-64 md:h-72"} bg-slate-900/80`}
+            aria-hidden="true"
           />
+        )}
       </div>
 
       <div className="relative z-10">
@@ -465,6 +495,7 @@ function FeaturedProjectsSection({ featuredProjects, openCaseStudy }) {
 
   return (
     <section
+      ref={sectionRef}
       className="lg:col-span-4 mt-12 min-h-[800px]"
       aria-label="Validated system modules section"
     >
@@ -912,45 +943,40 @@ export default function App() {
   const [mobileMode, setMobileMode] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
-  // ── Hero-first scroll enforcement ──────────────────────────────────
-  // Iframes load async and can steal focus / trigger scroll long after
-  // React mounts.  We use a multi-pass approach:
-  //   1. Immediate scrollTo
-  //   2. Timed scrollTo passes at 0/100/300/800ms to beat deferred loads
-  //   3. Blur listener to reclaim scroll when an iframe grabs focus
+  // Keep the page pinned at top on initial load until user interaction.
+  // This avoids late scroll jumps from browser restoration or iframe focus.
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
 
-    const scrollTop = () => window.scrollTo(0, 0);
-    scrollTop();
+    let unlocked = false;
 
-    // Timed passes to catch iframe focus-steals during async load
-    const t1 = setTimeout(scrollTop, 0);
-    const t2 = setTimeout(scrollTop, 100);
-    const t3 = setTimeout(scrollTop, 300);
-    const t4 = setTimeout(scrollTop, 800);
-
-    // If an iframe steals focus (blur fires on window), reclaim scroll
-    const onBlur = () => {
-      // Only act during initial load window (first 2 seconds)
-      setTimeout(scrollTop, 0);
+    const enforceTop = () => {
+      if (!unlocked && window.scrollY > 0) {
+        window.scrollTo(0, 0);
+      }
     };
-    window.addEventListener("blur", onBlur);
 
-    // Stop listening after 2s — page is settled by then
-    const tCleanup = setTimeout(() => {
-      window.removeEventListener("blur", onBlur);
-    }, 2000);
+    const releaseLock = () => {
+      if (unlocked) return;
+      unlocked = true;
+      window.removeEventListener("scroll", enforceTop);
+      window.removeEventListener("wheel", releaseLock);
+      window.removeEventListener("touchstart", releaseLock);
+      window.removeEventListener("keydown", releaseLock);
+      window.removeEventListener("mousedown", releaseLock);
+    };
+
+    window.scrollTo(0, 0);
+    window.addEventListener("scroll", enforceTop, { passive: true });
+    window.addEventListener("wheel", releaseLock, { passive: true, once: true });
+    window.addEventListener("touchstart", releaseLock, { passive: true, once: true });
+    window.addEventListener("keydown", releaseLock, { once: true });
+    window.addEventListener("mousedown", releaseLock, { passive: true, once: true });
 
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-      clearTimeout(t4);
-      clearTimeout(tCleanup);
-      window.removeEventListener("blur", onBlur);
+      releaseLock();
     };
   }, []);
   const projectTechnologies = useMemo(() => [...new Set(projects.flatMap((project) => project.tags))], []);
@@ -1084,6 +1110,7 @@ export default function App() {
                     title={`${heroProject.title} snapshot preview`}
                     src={heroProject.liveUrl}
                     tabIndex="-1"
+                    onLoad={(event) => event.currentTarget.blur()}
                     className="h-[18rem] w-full border-0 md:h-[22rem]"
                     loading="lazy"
                     sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
